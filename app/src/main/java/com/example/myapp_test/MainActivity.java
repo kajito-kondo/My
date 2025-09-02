@@ -16,6 +16,7 @@ import com.example.myapp_test.databinding.ActivityMainBinding;
          public class MainActivity extends AppCompatActivity {
 
     private ActivityMainBinding binding;
+    private PrefDataStore prefDataStore;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,6 +24,7 @@ import com.example.myapp_test.databinding.ActivityMainBinding;
         EdgeToEdge.enable(this);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        prefDataStore = PrefDataStore.getInstance(this);
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
@@ -32,6 +34,10 @@ import com.example.myapp_test.databinding.ActivityMainBinding;
         binding.button.setOnClickListener(v -> {
             binding.text.setText(R.string.title);
         });
+        binding.button2.setOnClickListener(v -> {
+            var name = binding.editTextText.getText().toString();
+            prefDataStore.setString("name",name);
+                });
         binding.editTextText.addTextChangedListener(new TextWatcher() {
             @Override
             public void afterTextChanged(Editable s) {
