@@ -25,6 +25,8 @@ import com.example.myapp_test.databinding.ActivityMainBinding;
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         prefDataStore = PrefDataStore.getInstance(this);
+        prefDataStore.getString("name")
+                .ifPresent(name -> binding.text.setText(name));
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
@@ -54,5 +56,11 @@ import com.example.myapp_test.databinding.ActivityMainBinding;
 
             }
         });
+        }
+        @Override
+        protected void onStart() {
+        super.onStart();
+        prefDataStore.getString("name")
+                .ifPresent(name -> binding.text.setText(name));
         }
     }
