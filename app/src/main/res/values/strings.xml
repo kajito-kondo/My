@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">My App_test</string>
+    <string name="title" translatable="false">kajito</string>
 </resources>
