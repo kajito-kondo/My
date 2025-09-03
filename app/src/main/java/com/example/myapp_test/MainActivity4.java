@@ -8,16 +8,17 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.example.myapp_test.databinding.ActivityMain4Binding;
 import com.example.myapp_test.databinding.ActivityMainBinding;
 
 public class MainActivity4 extends AppCompatActivity {
-    private ActivityMainBinding binding4;
+    private ActivityMain4Binding binding4;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        binding4 = ActivityMainBinding.inflate(getLayoutInflater());
+        binding4 = ActivityMain4Binding.inflate(getLayoutInflater());
         setContentView(binding4.getRoot());
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
@@ -25,6 +26,21 @@ public class MainActivity4 extends AppCompatActivity {
             return insets;
         });
         var editText = getIntent().getStringExtra("name");
-        binding4.text.setText(editText);
-        }
+        binding4.textView4.setText(editText);
+
+        //OK
+        binding4.button23.setOnClickListener(v -> {
+            var intent = getIntent();
+            intent.putExtra("ret", "OK");
+            setResult(RESULT_OK, intent);
+            finish();
+        });
+        //CANCEL
+        binding4.button24.setOnClickListener(v -> {
+            var intent = getIntent();
+            intent.putExtra("ret", "CANCEL");
+            setResult(RESULT_CANCELED, intent);
+            finish();
+        });
+    }
     }

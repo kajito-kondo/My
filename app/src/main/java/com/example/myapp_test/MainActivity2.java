@@ -5,6 +5,8 @@ import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.activity.EdgeToEdge;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -13,8 +15,32 @@ import androidx.core.view.WindowInsetsCompat;
 import com.example.myapp_test.databinding.ActivityMain2Binding;
 import com.example.myapp_test.databinding.ActivityMainBinding;
 
+import java.util.Optional;
+
 public class MainActivity2 extends AppCompatActivity {
     private ActivityMain2Binding binding2;
+
+
+
+        private final ActivityResultLauncher<Intent> getActivityResult = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                result -> {
+                    switch (result.getResultCode()) {
+                        case RESULT_OK -> {
+                            Optional.ofNullable(result.getData())
+                                    .map(data -> data.getStringExtra("ret"))
+                                    .map(text -> "Result: " + text)
+                                    .ifPresent(text -> binding2.textView5.setText(text));
+                        }
+                        case RESULT_CANCELED -> {
+                            binding2.textView5.setText("Result: Canceled");
+                        }
+                        default -> {
+                            binding2.textView5.setText("Result: Unknown(" + result.getResultCode() + ")");
+                        }
+                    }
+                }
+        );
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,5 +69,11 @@ public class MainActivity2 extends AppCompatActivity {
             intent.putExtra("name", tent);
             startActivity(intent);;
         });
+
+        binding2.button22.setOnClickListener(v -> {
+            var intent = new Intent(this, MainActivity4.class);
+            getActivityResult.launch(intent);
+        });
+
     }
 }
