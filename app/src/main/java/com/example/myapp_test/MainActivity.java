@@ -12,11 +12,18 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.example.myapp_test.databinding.ActivityMainBinding;
+import com.squareup.moshi.JsonAdapter;
+import com.squareup.moshi.Moshi;
+
+import okhttp3.OkHttpClient;
 
          public class MainActivity extends AppCompatActivity {
 
     private ActivityMainBinding binding;
     private PrefDataStore prefDataStore;
+    private final OkHttpClient okHttpClient = new OkHttpClient();
+    private final Moshi moshi = new Moshi.Builder().build();
+    private final JsonAdapter<Gist> gistAdapter = moshi.adapter(Gist.class);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
